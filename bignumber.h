@@ -1,6 +1,6 @@
 typedef struct bignumber *BigNumber;
  
-struct bignumber { char *data; int size, int sinal};
+struct bignumber { char *data; int size; int sinal;};
 
 typedef struct bignumber *BigNumber;
 
@@ -11,3 +11,5 @@ BigNumber bignumber();
 void le_bignumber();
 
 void soma_bignumber(BigNumber a, BigNumber b);
+
+void print_bignumber(BigNumber a);
