@@ -1,6 +1,6 @@
 typedef struct bignumber *BigNumber;
  
-struct bignumber { char *data; int size};
+struct bignumber { char *data; int size, int sinal};
 
 typedef struct bignumber *BigNumber;
 
