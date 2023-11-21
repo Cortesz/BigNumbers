@@ -9,5 +9,6 @@ int main(){
     le_bignumber(a);
     print_bignumber(a);
 
+    free_bignumber(a);
     return 0;
 }

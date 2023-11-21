@@ -29,6 +29,7 @@ void le_bignumber(BigNumber bn){
         bn->data[i]=string[i];
     }
     
+    free(string);
 }
 
  void soma_bignumber(BigNumber a, BigNumber b){
@@ -39,6 +40,10 @@ void le_bignumber(BigNumber bn){
     for (int i = 0; i < a->size; i++)
     {
         printf("%c",a->data[i]);
-    }
-    
+    }    
+ }
+
+ void free_bignumber(BigNumber a){
+    free(a->data);
+    free(a);
  }
