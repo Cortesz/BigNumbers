@@ -12,10 +12,10 @@ int main(){
     le_bignumber(b);
 
     printf("Soma \n"); 
-    soma_bignumber(a,b);
-    print_bignumber(a);
+    soma_bignumber(&a,&b);
     
 
     free_bignumber(a);
+    free_bignumber(b);
     return 0;
 }

@@ -7,7 +7,7 @@
 
 BigNumber bignumber(){
     BigNumber bn;
-    bn = malloc(sizeof(BigNumber));
+    bn = malloc(sizeof(struct bignumber));
     bn->size=1;
 
     //Inicia o vetor com tamanho 1 e valor 0
@@ -19,7 +19,7 @@ BigNumber bignumber(){
 void le_bignumber(BigNumber bn){
     char* string;
     string = calloc(MAX,sizeof(char));
-    fgets(string,MAX,stdin);
+    scanf("%s",string);
 
     //Negativo
     if(string[0]=='-'){
@@ -47,43 +47,45 @@ void le_bignumber(BigNumber bn){
     free(string);
 }
 
- void soma_bignumber(BigNumber a, BigNumber b){
+ void soma_bignumber(BigNumber *pointer_a, BigNumber *pointer_b){
 
-    BigNumber x;
+    BigNumber x,a = *pointer_a, b = *pointer_b;
     x = bignumber();
-    x->size = fmax(a->sinal,b->size)+1;
-    x->data = calloc(x->size,sizeof(char));
-    x->sinal= a->sinal;
 
-    int aux=0;
-    char resultado;
-    for (int i = 0; i > x->size-1; i++)
+    if (a->size > b->size) x->size = a->size+1;
+    else x->size = b->size+1;
+    x->data = calloc(x->size,sizeof(char));
+
+    int aux=0, resultado;
+    for (int i = 0; i < x->size-1; i++)
     {
-        if(i>a->size) resultado = b->data[i]+aux;
-        else if(i>b->size) resultado = a->data[i]+aux;
-        else resultado = a->data[i]+ b->data[i]+aux;
+        int ai = a->data[i] - 48;
+        int bi = b->data[i] - 48;
+
+        if(a->size<i) resultado = bi + aux;
+        else if(b->size<i) resultado = ai + aux;
+        else resultado = ai + bi +aux;
 
         //Se a soma passar de 10, passar um para o proximo digito
-        if(x->data[i]>9){
-            resultado-=10;
+        if(resultado>9){
+            resultado = resultado - 10;
             aux=1;
         } else {
             aux=0;
         }
 
-        x->data[i] = resultado;  
+
+        x->data[i] = resultado + 48;
     }
-    a = calloc(x->size,sizeof(char));
-    a->data = x->data;
-    a->size = x->size;
-    free(x);
+
+    print_bignumber(x);
  }
 
  void print_bignumber(BigNumber a){
     printf("Bignumber = ");
-    for (int i = 0; i < a->size; i++)
+    for (int i = 0; i <= a->size; i++)
     {
-        printf("%c",a->data[a->size-i]);
+        printf("%c",a->data[a->size-i-1]);
     }
     printf("\n");    
  }
