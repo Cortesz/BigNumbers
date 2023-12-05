@@ -12,7 +12,8 @@ int main(){
     le_bignumber(b);
 
     printf("Soma \n"); 
-    soma_bignumber(&a,&b);
+    BigNumber x = soma_bignumber(a,b);
+    print_bignumber(x);
     
 
     free_bignumber(a);

@@ -3,7 +3,8 @@
 #include <math.h>
 #include <string.h>
 #include "bignumber.h"
-#define MAX 100
+#define MAX 1000
+#define ASCII_INT 48 
 
 BigNumber bignumber(){
     BigNumber bn;
@@ -29,7 +30,7 @@ void le_bignumber(BigNumber bn){
         {
         bn->data[bn->size-i-1]=string[i+1];
         }
-        bn->sinal=0;
+        bn->sinal=1;
     } 
     
     //Positivo
@@ -40,31 +41,31 @@ void le_bignumber(BigNumber bn){
         {
         bn->data[bn->size-i-1]=string[i];
         }
-        bn->sinal=1;  
+        bn->sinal=0;  
     }
     
     //Libera a string auxiliar
     free(string);
 }
 
- void soma_bignumber(BigNumber *pointer_a, BigNumber *pointer_b){
-
-    BigNumber x,a = *pointer_a, b = *pointer_b;
+ BigNumber soma_bignumber(BigNumber a, BigNumber b){
+    BigNumber x;
     x = bignumber();
+    x->sinal = a->sinal;
 
-    if (a->size > b->size) x->size = a->size+1;
-    else x->size = b->size+1;
+    //Tamanho do vetor da Soma
+    if (a->size > b->size) x->size = a->size+1; else x->size = b->size+1;
     x->data = calloc(x->size,sizeof(char));
 
     int aux=0, resultado;
     for (int i = 0; i < x->size-1; i++)
     {
-        int ai = a->data[i] - 48;
-        int bi = b->data[i] - 48;
+        int ai = a->data[i] - ASCII_INT;
+        int bi = b->data[i] - ASCII_INT;
 
-        if(a->size<i) resultado = bi + aux;
-        else if(b->size<i) resultado = ai + aux;
-        else resultado = ai + bi +aux;
+        if(i>=a->size) ai=0;
+        if(i>=b->size) bi=0;
+        resultado = ai + bi +aux;
 
         //Se a soma passar de 10, passar um para o proximo digito
         if(resultado>9){
@@ -73,20 +74,16 @@ void le_bignumber(BigNumber bn){
         } else {
             aux=0;
         }
-
-
-        x->data[i] = resultado + 48;
+        x->data[i] = resultado + ASCII_INT;
     }
 
-    print_bignumber(x);
+    return x;
  }
 
  void print_bignumber(BigNumber a){
     printf("Bignumber = ");
-    for (int i = 0; i <= a->size; i++)
-    {
-        printf("%c",a->data[a->size-i-1]);
-    }
+    if (a->sinal) printf("-");
+    for (int i = a->size-1; i >=0; i--) printf("%c",a->data[i]);
     printf("\n");    
  }
 

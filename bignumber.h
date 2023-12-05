@@ -10,7 +10,7 @@ BigNumber bignumber();
 //Atribui valor ao BigNumber
 void le_bignumber();
 
-void soma_bignumber(BigNumber *pointer_a, BigNumber *pointer_b);
+BigNumber soma_bignumber(BigNumber a, BigNumber b);
 
 void print_bignumber(BigNumber a);
 
