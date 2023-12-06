@@ -92,14 +92,14 @@ void le_bignumber(BigNumber bn){
     x->data = realloc(x->data,x->size*sizeof(char));
 
     //Multiplica
-    int resultado;
+    int* resultado;
+    resultado = calloc(x->size,sizeof(int));
     for (int i = 0; i < a->size; i++) 
     {
         for (int j = 0; j < b->size; j++){
             int ai = a->data[i] - ASCII_INT;
             int bj = b->data[j] - ASCII_INT;
-            resultado = ai * bj;
-            x->data[i+j] += resultado;
+            resultado[i+j] += ai * bj;
         }
     }
 
@@ -107,14 +107,15 @@ void le_bignumber(BigNumber bn){
     int aux = 0;
     for (int i = 0; i < x->size; i++)
     {
-        if (x->data[i]>9)
+        if (resultado[i]>9)
         {
-            aux = x->data[i]/10;
-            x->data[i] = x->data[i]%10;
-            x->data[i+1]+=aux; 
+            aux = resultado[i]/10;
+            resultado[i] = resultado[i]%10;
+            resultado[i+1]+=aux; 
         } else aux=0;
-        x->data[i]+= ASCII_INT;
+        x->data[i]= resultado[i] + ASCII_INT;
     }
+    free(resultado);
 
     //Remove o zero da frente
     while (x->data[x->size-1]=='0')
