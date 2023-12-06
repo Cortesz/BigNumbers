@@ -8,12 +8,16 @@ typedef struct bignumber *BigNumber;
 BigNumber bignumber();
 
 //Atribui valor ao BigNumber
-void le_bignumber();
+void le_bignumber(BigNumber bn);
 
+//Soma
 BigNumber soma_bignumber(BigNumber a, BigNumber b);
 
+//Multiplicacao
 BigNumber mult_bignumber(BigNumber a, BigNumber b);
 
+//Print (Inverte a ordem)
 void print_bignumber(BigNumber a);
 
+//Libera a memoria
 void free_bignumber(BigNumber a);

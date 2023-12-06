@@ -25,7 +25,7 @@ void le_bignumber(BigNumber bn){
     //Negativo
     if(string[0]=='-'){
         bn->size=strlen(string)-1;
-        bn->data = calloc(bn->size,sizeof(char));
+        bn->data = realloc(bn->data,bn->size*sizeof(char));
         for (int i = 0; i < bn->size; i++)
         {
         bn->data[bn->size-i-1]=string[i+1];
@@ -36,7 +36,7 @@ void le_bignumber(BigNumber bn){
     //Positivo
     else {
         bn->size=strlen(string);
-        bn->data = calloc(bn->size,sizeof(char));
+        bn->data = realloc(bn->data,bn->size*sizeof(char));
       for (int i = 0; i < bn->size; i++)
         {
         bn->data[bn->size-i-1]=string[i];
@@ -54,10 +54,10 @@ void le_bignumber(BigNumber bn){
 
     //Tamanho do vetor da Soma
     if (a->size > b->size) x->size = a->size+1; else x->size = b->size+1;
-    x->data = calloc(x->size,sizeof(char));
+    x->data = realloc(x->data,x->size*sizeof(char));
 
     int aux=0, resultado;
-    for (int i = 0; i < x->size-1; i++)
+    for (int i = 0; i < x->size; i++)
     {
         int ai = a->data[i] - ASCII_INT;
         int bi = b->data[i] - ASCII_INT;
@@ -75,7 +75,13 @@ void le_bignumber(BigNumber bn){
         }
         x->data[i] = resultado + ASCII_INT;
     }
-
+    
+    //Remove o zero da frente
+    while (x->data[x->size-1]=='0')
+    {
+        x->size-=1;
+    }
+    
     return x;
  }
 
@@ -83,7 +89,9 @@ void le_bignumber(BigNumber bn){
     BigNumber x;
     x = bignumber();
     x->size = a->size+b->size;
-    x->data = calloc(x->size,sizeof(char));
+    x->data = realloc(x->data,x->size*sizeof(char));
+
+    //Multiplica
     int resultado;
     for (int i = 0; i < a->size; i++) 
     {
@@ -95,6 +103,7 @@ void le_bignumber(BigNumber bn){
         }
     }
 
+    //Transforma os numeros para 1 digito, soma o excedente em i+1 e converte para char
     int aux = 0;
     for (int i = 0; i < x->size; i++)
     {
@@ -107,11 +116,16 @@ void le_bignumber(BigNumber bn){
         x->data[i]+= ASCII_INT;
     }
 
+    //Remove o zero da frente
+    while (x->data[x->size-1]=='0')
+    {
+        x->size-=1;
+    }
+
     return x;
  }
 
  void print_bignumber(BigNumber a){
-    printf("Bignumber = ");
     if (a->sinal) printf("-");
     for (int i = a->size-1; i >=0; i--) printf("%c",a->data[i]);
     printf("\n");    
