@@ -51,7 +51,6 @@ void le_bignumber(BigNumber bn){
  BigNumber soma_bignumber(BigNumber a, BigNumber b){
     BigNumber x;
     x = bignumber();
-    x->sinal = a->sinal;
 
     //Tamanho do vetor da Soma
     if (a->size > b->size) x->size = a->size+1; else x->size = b->size+1;
@@ -75,6 +74,37 @@ void le_bignumber(BigNumber bn){
             aux=0;
         }
         x->data[i] = resultado + ASCII_INT;
+    }
+
+    return x;
+ }
+
+ BigNumber mult_bignumber(BigNumber a, BigNumber b){
+    BigNumber x;
+    x = bignumber();
+    x->size = a->size+b->size;
+    x->data = calloc(x->size,sizeof(char));
+    int resultado;
+    for (int i = 0; i < a->size; i++) 
+    {
+        for (int j = 0; j < b->size; j++){
+            int ai = a->data[i] - ASCII_INT;
+            int bj = b->data[j] - ASCII_INT;
+            resultado = ai * bj;
+            x->data[i+j] += resultado;
+        }
+    }
+
+    int aux = 0;
+    for (int i = 0; i < x->size; i++)
+    {
+        if (x->data[i]>9)
+        {
+            aux = x->data[i]/10;
+            x->data[i] = x->data[i]%10;
+            x->data[i+1]+=aux; 
+        } else aux=0;
+        x->data[i]+= ASCII_INT;
     }
 
     return x;

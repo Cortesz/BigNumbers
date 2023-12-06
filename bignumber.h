@@ -12,6 +12,8 @@ void le_bignumber();
 
 BigNumber soma_bignumber(BigNumber a, BigNumber b);
 
+BigNumber mult_bignumber(BigNumber a, BigNumber b);
+
 void print_bignumber(BigNumber a);
 
 void free_bignumber(BigNumber a);

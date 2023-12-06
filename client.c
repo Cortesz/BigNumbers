@@ -14,9 +14,14 @@ int main(){
     printf("Soma \n"); 
     BigNumber x = soma_bignumber(a,b);
     print_bignumber(x);
-    
+
+    printf("Multiplicacao \n"); 
+    BigNumber y = mult_bignumber(a,b);
+    print_bignumber(y);
 
     free_bignumber(a);
     free_bignumber(b);
+    free_bignumber(x);
+    free_bignumber(y);
     return 0;
 }
