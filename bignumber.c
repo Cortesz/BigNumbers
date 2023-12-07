@@ -126,6 +126,59 @@ void le_bignumber(BigNumber bn){
     return x;
  }
 
+BigNumber sub_bignumber(BigNumber a, BigNumber b)
+{
+    BigNumber x;
+    x = bignumber();
+
+    if (b->sinal == '-') 
+    {
+        b->sinal = '+';
+        soma_bignumber(a, b);
+    }
+
+    if (a->sinal == '-' && b->sinal == '+')
+    {
+        b->sinal = '-';
+        soma_bignumber(a, b);
+    }
+
+    //Tamanho do vetor da Subtração
+    if (a->size > b->size) x->size = a->size+1; else x->size = b->size+1;
+    x->data = realloc(x->data,x->size*sizeof(char));
+
+    int aux=0, resultado;
+    for (int i = 0; i < x->size; i++)
+    {
+        int ai = a->data[i] - ASCII_INT;
+        int bi = b->data[i] - ASCII_INT;
+
+        if(i>=a->size) ai=0;
+        if(i>=b->size) bi=0;
+        if(a->data[i] < b->data[i] && a->data[i + 1] != 0)
+        {
+            a->data[i + 1] -= 1;
+            a->data[i] += 10;
+            resultado = ai - bi; //não é necessário o aux
+        }
+        else if (a->data[i] < b->data[i] && a->data[i + 1] == 0)
+        {
+            x->sinal = '-';
+            resultado = bi - ai;
+        }
+        //resultado = ai - bi +aux; //não é necessário o aux
+        x->data[i] = resultado + ASCII_INT;
+    }
+
+    //Remove o zero da frente
+    while (x->data[x->size-1]=='0')
+    {
+        x->size-=1;
+    }
+    
+    return x;
+}
+
  void print_bignumber(BigNumber a){
     if (a->sinal) printf("-");
     for (int i = a->size-1; i >=0; i--) printf("%c",a->data[i]);

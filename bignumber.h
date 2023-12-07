@@ -16,6 +16,9 @@ BigNumber soma_bignumber(BigNumber a, BigNumber b);
 //Multiplicacao
 BigNumber mult_bignumber(BigNumber a, BigNumber b);
 
+//Subtracao
+BigNumber sub_bignumer(BigNumber a, BigNumber b);
+
 //Print (Inverte a ordem)
 void print_bignumber(BigNumber a);
 
