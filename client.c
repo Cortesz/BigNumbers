@@ -19,6 +19,10 @@ int main(){
     BigNumber y = mult_bignumber(a,b);
     print_bignumber(y);
 
+    printf("Subtracao\n");
+    BigNumber z = sub_bignumer(a,b);
+    print_bignumber(z);
+
     free_bignumber(a);
     free_bignumber(b);
     free_bignumber(x);
