@@ -23,14 +23,18 @@ void operacao(){
     b = bignumber();
     int aux=1;
     do
-    {
+    {    
     aux = le_bignumber(a);
     le_bignumber(b);
+    
+    if (aux==EOF) break;
+    
 
     //Operador +(Soma) -(Subtracao) *(Multiplicacao)
     getchar();
     char operador;
     scanf("%c",&operador);
+    
     switch (operador)
     {
     case '+':
@@ -72,17 +76,20 @@ void operacao(){
     }
    
     free_bignumber(x);
-} while (aux!=EOF);
+}while(aux!=EOF);
 
     free_bignumber(a);
-    free_bignumber(b);  
+    free_bignumber(b); 
 }
 
 int le_bignumber(BigNumber bn){
     char* string;
     string = calloc(MAX,sizeof(char));
     scanf("%s",string);
-    if (*string=='\0') return EOF;
+    if (*string=='\0'){
+        free(string);
+        return EOF;
+    } 
 
     //Negativo
     if(string[0]=='-'){
