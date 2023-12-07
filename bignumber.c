@@ -17,10 +17,72 @@ BigNumber bignumber(){
     return bn;
 }
 
-void le_bignumber(BigNumber bn){
+void operacao(){
+    BigNumber a,b,x;
+    a = bignumber();
+    b = bignumber();
+    int aux=1;
+    do
+    {
+    aux = le_bignumber(a);
+    le_bignumber(b);
+
+    //Operador +(Soma) -(Subtracao) *(Multiplicacao)
+    getchar();
+    char operador;
+    scanf("%c",&operador);
+    switch (operador)
+    {
+    case '+':
+        if (a->sinal!= b->sinal)
+            {
+                x = sub_bignumber(a,b);
+            } else {
+                x = soma_bignumber(a,b);
+            }
+    
+        print_bignumber(x);
+        break;
+
+    case '*':
+        x = mult_bignumber(a,b);
+        print_bignumber(x);
+        break;
+
+    case '-':
+        if (b->sinal == 1) 
+            {
+                b->sinal = 0;
+                x = soma_bignumber(a, b);
+            }
+
+        else if (a->sinal == 1 && b->sinal == 0)
+            {
+                b->sinal = 1;
+                x = soma_bignumber(a, b);
+            } else {
+                x = sub_bignumber(a,b);
+            }
+        print_bignumber(x);
+        break;
+        
+    
+    default:
+        break;
+    }
+   
+    free_bignumber(x);
+} while (aux!=EOF);
+
+    free_bignumber(a);
+    free_bignumber(b);  
+}
+
+int le_bignumber(BigNumber bn){
     char* string;
     string = calloc(MAX,sizeof(char));
     scanf("%s",string);
+    if (*string=='\0') return EOF;
 
     //Negativo
     if(string[0]=='-'){
@@ -46,6 +108,7 @@ void le_bignumber(BigNumber bn){
     
     //Libera a string auxiliar
     free(string);
+    return 1;
 }
 
  BigNumber soma_bignumber(BigNumber a, BigNumber b){
@@ -55,6 +118,7 @@ void le_bignumber(BigNumber bn){
     //Tamanho do vetor da Soma
     if (a->size > b->size) x->size = a->size+1; else x->size = b->size+1;
     x->data = realloc(x->data,x->size*sizeof(char));
+    x->sinal=a->sinal;
 
     int aux=0, resultado;
     for (int i = 0; i < x->size; i++)
@@ -131,18 +195,30 @@ BigNumber sub_bignumber(BigNumber a, BigNumber b)
     BigNumber x;
     x = bignumber();
 
-    if (b->sinal == '-') 
+    //Compara o modulo de A com o modulo de B
+    if (a->size<b->size)
     {
-        b->sinal = '+';
-        soma_bignumber(a, b);
-    }
-
-    if (a->sinal == '-' && b->sinal == '+')
+        BigNumber temp;
+        temp = a;
+        a = b;
+        b = temp;
+        x->sinal=1;
+    } else if (a->size==b->size)
     {
-        b->sinal = '-';
-        soma_bignumber(a, b);
+        for (int i = a->size-1; i > 0; i--)
+        {
+            if (a->data[i]<b->data[i])
+            {
+                BigNumber temp;
+                temp = a;
+                a = b;
+                b = temp;
+                x->sinal=1;
+                break;
+            }
+        }
     }
-
+    
     //Tamanho do vetor da Subtração
     if (a->size > b->size) x->size = a->size+1; else x->size = b->size+1;
     x->data = realloc(x->data,x->size*sizeof(char));
@@ -155,18 +231,14 @@ BigNumber sub_bignumber(BigNumber a, BigNumber b)
 
         if(i>=a->size) ai=0;
         if(i>=b->size) bi=0;
-        if(a->data[i] < b->data[i] && a->data[i + 1] != 0)
+
+        resultado = ai - bi - aux;
+        if (resultado<0)
         {
-            a->data[i + 1] -= 1;
-            a->data[i] += 10;
-            resultado = ai - bi; //não é necessário o aux
-        }
-        else if (a->data[i] < b->data[i] && a->data[i + 1] == 0)
-        {
-            x->sinal = '-';
-            resultado = bi - ai;
-        }
-        //resultado = ai - bi +aux; //não é necessário o aux
+            resultado+=10;
+            aux=1;
+        } else aux=0;
+        
         x->data[i] = resultado + ASCII_INT;
     }
 
