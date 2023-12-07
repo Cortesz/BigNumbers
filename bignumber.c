@@ -38,8 +38,13 @@ void operacao(){
     switch (operador)
     {
     case '+':
-        if (a->sinal!= b->sinal)
-            {
+        if (a->sinal== 1 && b->sinal == 0) {
+                a->sinal=0;
+                b->sinal=0;
+                x = sub_bignumber(b,a);
+            } else if (a->sinal== 0 && b->sinal == 1) {
+                a->sinal=0;
+                b->sinal=0;
                 x = sub_bignumber(a,b);
             } else {
                 x = soma_bignumber(a,b);
@@ -64,7 +69,7 @@ void operacao(){
         else if (a->sinal == 1 && b->sinal == 0)
             {
                 b->sinal = 1;
-                x = soma_bignumber(a, b);
+                x = soma_bignumber(a,b);
             } else {
                 x = sub_bignumber(a,b);
             }
@@ -149,10 +154,15 @@ BigNumber soma_bignumber(BigNumber a, BigNumber b){
     }
     
     //Remove o zero da frente
-    while (x->data[x->size-1]=='0')
+    while (x->data[x->size-1]=='0' && x->size>1)
     {
         x->size-=1;
     }
+    if (x->size)
+    {
+        /* code */
+    }
+    
     
     return x;
  }
@@ -190,7 +200,7 @@ BigNumber soma_bignumber(BigNumber a, BigNumber b){
     free(resultado);
 
     //Remove o zero da frente
-    while (x->data[x->size-1]=='0')
+    while (x->data[x->size-1]=='0' && x->size>1)
     {
         x->size-=1;
     }
@@ -213,15 +223,15 @@ BigNumber sub_bignumber(BigNumber a, BigNumber b)
         x->sinal=1;
     } else if (a->size==b->size)
     {
-        for (int i = a->size-1; i > 0; i--)
+        for (int i = a->size-1; i >= 0; i--)
         {
             if (a->data[i]<b->data[i])
             {
+                x->sinal=1;
                 BigNumber temp;
                 temp = a;
                 a = b;
                 b = temp;
-                x->sinal=1;
                 break;
             }
         }
@@ -251,7 +261,7 @@ BigNumber sub_bignumber(BigNumber a, BigNumber b)
     }
 
     //Remove o zero da frente
-    while (x->data[x->size-1]=='0')
+    while (x->data[x->size-1]=='0' && x->size>1)
     {
         x->size-=1;
     }
@@ -260,6 +270,7 @@ BigNumber sub_bignumber(BigNumber a, BigNumber b)
 }
 
  void print_bignumber(BigNumber a){
+    if (a->size==1 && a->data[0]=='0') a->sinal=0;
     if (a->sinal) printf("-");
     for (int i = a->size-1; i >=0; i--) printf("%c",a->data[i]);
     printf("\n");    
