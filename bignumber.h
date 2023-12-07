@@ -10,6 +10,7 @@ BigNumber bignumber();
 //Atribui valor ao BigNumber
 int le_bignumber(BigNumber bn);
 
+//Recebe os dois numeros e um caracter para a operacao
 void operacao();
 
 //Soma

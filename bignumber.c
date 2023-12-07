@@ -3,7 +3,7 @@
 #include <math.h>
 #include <string.h>
 #include "bignumber.h"
-#define MAX 1000
+#define MAX 2000
 #define ASCII_INT 48 
 
 BigNumber bignumber(){
@@ -50,6 +50,7 @@ void operacao(){
 
     case '*':
         x = mult_bignumber(a,b);
+        if (a->sinal!=b->sinal) x->sinal = 1; else x->sinal=0;
         print_bignumber(x);
         break;
 
@@ -118,7 +119,7 @@ int le_bignumber(BigNumber bn){
     return 1;
 }
 
- BigNumber soma_bignumber(BigNumber a, BigNumber b){
+BigNumber soma_bignumber(BigNumber a, BigNumber b){
     BigNumber x;
     x = bignumber();
 
