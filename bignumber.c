@@ -158,10 +158,6 @@ BigNumber soma_bignumber(BigNumber a, BigNumber b){
     {
         x->size-=1;
     }
-    if (x->size)
-    {
-        /* code */
-    }
     
     
     return x;
