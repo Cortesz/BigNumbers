@@ -51,12 +51,14 @@ void operacao(){
             }
     
         print_bignumber(x);
+        free_bignumber(x);
         break;
 
     case '*':
         x = mult_bignumber(a,b);
         if (a->sinal!=b->sinal) x->sinal = 1; else x->sinal=0;
         print_bignumber(x);
+        free_bignumber(x);
         break;
 
     case '-':
@@ -74,6 +76,7 @@ void operacao(){
                 x = sub_bignumber(a,b);
             }
         print_bignumber(x);
+        free_bignumber(x);
         break;
         
     
@@ -81,7 +84,6 @@ void operacao(){
         break;
     }
    
-    free_bignumber(x);
 }while(aux!=EOF);
 
     free_bignumber(a);
