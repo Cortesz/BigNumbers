@@ -62,7 +62,11 @@ void operacao(){
         break;
 
     case '-':
-        if (b->sinal == 1) 
+        if (b->sinal == 1 && a->sinal==1) 
+            {
+                b->sinal=0;
+                x=sub_bignumber(b,a);
+            } else if (b->sinal == 1) 
             {
                 b->sinal = 0;
                 x = soma_bignumber(a, b);
@@ -219,10 +223,11 @@ BigNumber sub_bignumber(BigNumber a, BigNumber b)
         a = b;
         b = temp;
         x->sinal=1;
-    } else if (a->size==b->size)
+    }else if (a->size==b->size)
     {
         for (int i = a->size-1; i >= 0; i--)
         {
+            int count=0;
             if (a->data[i]<b->data[i])
             {
                 x->sinal=1;
@@ -230,10 +235,11 @@ BigNumber sub_bignumber(BigNumber a, BigNumber b)
                 temp = a;
                 a = b;
                 b = temp;
-                break;
+                count=1;
             }
+            if (count) break;
         }
-    }
+    } else x->sinal=0;
     
     //Tamanho do vetor da Subtração
     if (a->size > b->size) x->size = a->size+1; else x->size = b->size+1;
